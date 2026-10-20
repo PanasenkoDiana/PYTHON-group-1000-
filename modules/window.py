@@ -1,11 +1,19 @@
-
 from PyQt6.QtWidgets import (
     QMainWindow,QFrame,QHBoxLayout,
     QVBoxLayout,QGridLayout,QScrollArea,
-    QLabel
+    QLabel,
+    QPushButton,
+    QLineEdit, QTextEdit, QComboBox
 )
 from modules.app import app
 from PyQt6.QtCore import Qt
+
+# QFont - відповідає за не складні стилі
+from PyQt6.QtGui import QFont
+
+# Створюємо змінну в якій вказуємо шрифт та його розмір
+font = QFont("Arial", 50)
+
 MAIN_WINDOW_WIDTH = 1024
 MAIN_WINDOW_HEIGHT = 800
 
@@ -78,3 +86,128 @@ element_2 = QFrame(parent = main_frame)
 element_2.setFixedSize(624,MAIN_WINDOW_HEIGHT)
 element_2.setStyleSheet("background-color: #dcfcc5")
 main_layout.addWidget(element_2)
+
+# button = QPushButton(
+#     parent=element_2,
+#     text="Click"
+# )
+
+# border: 1px solid black - товщина стиль колір
+# border-radius: 5px - закруглення кутів
+# color: red; - колір для тексту кнопки
+# padding: 10px; - внутрішні відступи в середині кнопки
+# font-family: "Open Sans", Arial, sans-serif; - вказуємо шрифт
+# button.setStyleSheet(
+#     '''
+#         border: 1px solid black;
+#         border-radius: 5px;
+#         color: red;
+#         background-color: lightgray;
+#         padding: 30px;
+#         font-family: "Open Sans", Arial, sans-serif;
+#         font-size: 50px;
+#     '''
+# )
+
+# button.setFixedSize(250, 100)
+# setFont - встанавлюємо наш шрифт для кнопки
+# button.setFont(font)
+
+# сигнал - дозволяє викликати якусь функцію при якійсь дії
+
+# def button_click():
+#     print("click")
+
+# button.clicked.connect - обробка події
+# button - наша кнопка
+# clicked - подія натискання на кнопку
+# connect - приєднуємо функцію
+# button.clicked.connect(button_click)
+
+element_2_layout = QHBoxLayout()
+element_2_layout.setContentsMargins(10,10,10,10)
+element_2_layout.setSpacing(20)
+element_2_layout.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+element_2.setLayout(element_2_layout) 
+
+# QLineEdit - клас який створює поле для вводу (короткого тексту - тексту в один рядок)
+line_edit = QLineEdit(parent = element_2)
+line_edit.setStyleSheet("""
+    border: 2px solid black;
+    color: black; 
+    background-color: red;
+    font-size: 20px;
+""")
+line_edit.setFixedSize(150, 50)
+
+# setPlaceholderText - створює текст-підказку для користувача у полі для вводу
+line_edit.setPlaceholderText("enter text")
+
+# Створюємо функцію яка приймає текст який вводить користувач у QLineEdit
+def line_edit_text_changed(text):
+    print(f"text: {text}")
+
+# line_edit.textChanged.connect - обробка події змінення тексту
+# line_edit - наше поле вводу
+# textChanged - подія змінення тексту
+# connect - приєднуємо відповідну функцію для обробки події
+line_edit.textChanged.connect(line_edit_text_changed)
+
+element_2_layout.addWidget(line_edit)
+
+# QTextEdit - клас який створю велике поле для вводу (багаторядкове поле)
+# text_edit = QTextEdit(parent= element_2)
+
+# text_edit.setStyleSheet("""
+#     border: 2px solid black;
+#     color: black; 
+#     background-color: red;
+#     font-size: 20px;
+# """)
+# line_edit.setFixedSize(150, 50)
+# element_2_layout.addWidget(text_edit)
+# text_edit.setPlaceholderText("enter text")
+
+# # Створюємо функцію яка обробляє текст який вводиться у QTextEdit
+# # !Функція не приймає параментрів
+# # Текст отримується завдяки методу text_edit.toPlainText() - повертає звичайний текст без форматування
+# # Якщо потрібно повернути текст зі збереженням формату використовуємо text_edit.toHtml()
+# def text_edit_text_change():
+#     print(f'text: {text_edit.toPlainText()}')
+
+# text_edit.textChanged.connect(text_edit_text_change)
+
+
+# QComboBox - клас для створеня випадаючого меню
+combo_box = QComboBox(parent= element_2)
+
+# Ми можемо додавати до нього єлементи двома спосібами
+# 1. addItems - додає одразу декілька єлементів
+combo_box.addItems(["option 1", "option 2", "option 3"])
+# 2. addItem - додає тілько по одному элементу
+combo_box.addItem("option 4")
+combo_box.addItem("option 5")
+combo_box.addItem("option 6")
+combo_box.addItem("option 7")
+element_2_layout.addWidget(combo_box)
+
+# QComboBox{в середині задає стилі} - задає стилі для основного меню
+# QComboBox QAbstractItemView{в середині задає стилі} - задає стилі для випадаючих єлементів
+combo_box.setStyleSheet("""
+    QComboBox{
+        background-color: blue;
+        color: black;
+        border: 2px solid black 
+    }
+    QComboBox QAbstractItemView{
+        background-color: red;
+        color: black;
+        border: 2px solid black;
+    }
+""")
+
+def combo_box_option_changed(option):
+    print(f"Selected option: {option}")
+
+# combo_box.currentTextChanged.connect() - обробляє подію зміни вибору
+combo_box.currentTextChanged.connect(combo_box_option_changed)
